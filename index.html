@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Oseltamivir</title>
+    <meta name="description"
+        content="Ferramenta de apoio ao cálculo de dosagem de Oseltamivir para tratamento de Influenza, desenvolvida pela Secretaria Municipal de Saúde de Volta Redonda.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-4">
+    <main>
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+
+            <!-- Cabeçalho -->
+            <div class="bg-blue-700 p-6 text-white text-center">
+                <h1 class="text-2xl font-bold tracking-tight">Calculadora de Dosagem de Oseltamivir</h1>
+
+            </div>
+
+            <!-- Formulário -->
+            <div class="p-6 space-y-6">
+
+                <!-- Seleção do Perfil -->
+                <div class="space-y-2">
+                    <label for="perfil" class="block text-sm font-bold text-gray-700">
+                        Perfil do Paciente
+                    </label>
+                    <select id="perfil"
+                        class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                        <option value="adulto">Adulto</option>
+                        <option value="crianca_maior_1a">Criança ≥ 1 ano de idade</option>
+                        <option value="crianca_0_8m">Criança &lt; 1 ano (0 a 8 meses)</option>
+                        <option value="crianca_9_11m">Criança &lt; 1 ano (9 a 11 meses)</option>
+                        <option value="neonatal_prematuro">Neonatal – Recém-nascido pré-termo</option>
+                        <option value="neonatal_38_40">Neonatal – 38 a 40 semanas de IG</option>
+                        <option value="neonatal_gt40">Neonatal – IG &gt; 40 semanas</option>
+                        <option value="zanamivir">Zanamivir (≥ 7 anos / Adulto)</option>
+                    </select>
+                    <div class="flex items-center space-x-2 text-blue-600">
+                        <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <p id="info-dose" class="text-xs font-medium">Via oral, 12/12h, 5 dias</p>
+                    </div>
+                </div>
+
+                <!-- Peso do Paciente (exibido somente quando necessário) -->
+                <div id="campo-peso" class="space-y-2 hidden">
+                    <label for="peso" class="block text-sm font-bold text-gray-700">
+                        Peso do Paciente (kg)
+                    </label>
+                    <div class="relative">
+                        <input type="number" id="peso" placeholder="0.0" step="0.1" min="0"
+                            class="w-full p-4 bg-gray-50 border border-gray-300 rounded-xl text-lg font-semibold focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">(em kg)</span>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100">
+
+                <!-- Bloco de Resultados -->
+                <div id="resultados" class="space-y-4 hidden">
+
+                    <!-- Dose por Tomada -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <span class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Dose por
+                            Tomada</span>
+                        <div class="flex items-baseline space-x-1">
+                            <span id="res-dose" class="text-3xl font-black text-slate-800">0</span>
+                            <span id="res-dose-unit" class="text-slate-500 font-bold">mg</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Frequência -->
+                        <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                            <span
+                                class="block text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-1">Frequência</span>
+                            <div class="flex items-baseline">
+                                <span id="res-freq" class="text-2xl font-bold text-emerald-900">12/12h</span>
+                            </div>
+                        </div>
+
+                        <!-- Duração -->
+                        <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                            <span
+                                class="block text-[10px] font-bold text-amber-600 uppercase tracking-wider mb-1">Duração</span>
+                            <div class="flex items-baseline space-x-1">
+                                <span id="res-dur" class="text-2xl font-bold text-amber-900">5</span>
+                                <span class="text-amber-700 font-bold text-sm">dias</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Volume em Suspensão (exibido somente em dosagem por peso) -->
+                    <div id="bloco-suspensao" class="bg-violet-50 p-4 rounded-xl border border-violet-100 hidden">
+                        <span class="block text-[10px] font-bold text-violet-600 uppercase tracking-wider mb-1">Volume –
+                            Suspensão Oral (6 mg/mL)</span>
+                        <div class="flex items-baseline space-x-1">
+                            <span id="res-ml" class="text-2xl font-bold text-violet-900">0</span>
+                            <span class="text-violet-700 font-bold text-sm">mL por tomada</span>
+                        </div>
+                    </div>
+
+                    <!-- Observação Técnica -->
+                    <div class="p-3 bg-gray-50 rounded-lg border border-gray-200">
+                        <ul id="obs-list" class="text-[10px] text-gray-500 space-y-1 list-disc ml-4 leading-tight">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Estado Vazio -->
+                <div id="placeholder" class="text-center py-10 text-gray-400 hidden">
+                    <svg class="w-12 h-12 mx-auto mb-3 opacity-20" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    <p class="text-sm">Informe o peso para calcular a dosagem</p>
+                </div>
+            </div>
+
+            <!-- Rodapé do Card -->
+            <div class="bg-gray-50 p-4 text-center border-t border-gray-100">
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Ferramenta de Apoio
+                    Profissional</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full py-6 mt-auto text-center border-t border-gray-200">
+        <p class="text-[11px] md:text-xs text-gray-500 font-medium">
+            Departamento de Atenção à Saúde - Secretaria Municipal de Saúde de Volta Redonda - RJ |
+            Desenvolvido por <a href="https://www.github.com/ovitorleal" target="_blank"
+                class="text-blue-600 hover:underline font-bold">Vitor Leal</a>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
