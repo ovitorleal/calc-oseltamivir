@@ -26,7 +26,7 @@ const INFO_PERFIL = {
     neonatal_prematuro:'1 mg/kg/dose. Via oral, 12/12h, 5 dias',
     neonatal_38_40:    '1,5 mg/kg/dose. Via oral, 12/12h, 5 dias',
     neonatal_gt40:     '3 mg/kg/dose. Via oral, 12/12h, 5 dias',
-    zanamivir:         '10 mg = 2 inalações de 5 mg, 12/12h, 5 dias',
+
 };
 
 // ─── Exibe o resultado no card ─────────────────────────────────────────────
@@ -66,15 +66,7 @@ function calcular() {
         return;
     }
 
-    // ── Zanamivir ────────────────────────────────────────────────────────────
-    if (perfil === 'zanamivir') {
-        mostrarResultado('10', 'mg', '12/12h', '5', [
-            '2 inalações de 5 mg por dispositivo (Diskhaler).',
-            'Total: 10 doses inalatórias ao longo de 5 dias.',
-            'Indicado para crianças ≥ 7 anos e adultos.',
-        ]);
-        return;
-    }
+
 
     // ── Perfis que precisam de peso ──────────────────────────────────────────
     if (!precisaPeso.includes(perfil)) return;
@@ -122,12 +114,6 @@ function calcular() {
         neonatal_gt40:      3,
     };
 
-    const OBS_EXTRA = {
-        neonatal_prematuro: 'Utilizar até atingir 38 semanas de idade gestacional corrigida.',
-        neonatal_38_40:     'Utilizar de 38 a 40 semanas de IG.',
-        neonatal_gt40:      'Utilizar em RN com IG > 40 semanas.',
-    };
-
     const doseKg  = DOSE_KG[perfil];
     const doseMg  = peso * doseKg;
 
@@ -136,8 +122,6 @@ function calcular() {
         'Utilizar preferencialmente suspensão oral (6 mg/mL).',
         'Total: 10 tomadas ao longo de 5 dias.',
     ];
-
-    if (OBS_EXTRA[perfil]) obs.push(OBS_EXTRA[perfil]);
 
     mostrarResultado(
         doseMg.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }),
