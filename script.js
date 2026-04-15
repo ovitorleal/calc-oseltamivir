@@ -1,31 +1,31 @@
-const inputPerfil  = document.getElementById('perfil');
-const inputPeso    = document.getElementById('peso');
-const infoDose     = document.getElementById('info-dose');
-const campoPeso    = document.getElementById('campo-peso');
+const inputPerfil = document.getElementById('perfil');
+const inputPeso = document.getElementById('peso');
+const infoDose = document.getElementById('info-dose');
+const campoPeso = document.getElementById('campo-peso');
 
-const resDose      = document.getElementById('res-dose');
-const resDoseUnit  = document.getElementById('res-dose-unit');
-const resFreq      = document.getElementById('res-freq');
-const resDur       = document.getElementById('res-dur');
-const resML        = document.getElementById('res-ml');
-const blocoSuspensao     = document.getElementById('bloco-suspensao');
-const obsList            = document.getElementById('obs-list');
+const resDose = document.getElementById('res-dose');
+const resDoseUnit = document.getElementById('res-dose-unit');
+const resFreq = document.getElementById('res-freq');
+const resDur = document.getElementById('res-dur');
+const resML = document.getElementById('res-ml');
+const blocoSuspensao = document.getElementById('bloco-suspensao');
+const obsList = document.getElementById('obs-list');
 const containerResultados = document.getElementById('resultados');
-const placeholder        = document.getElementById('placeholder');
+const placeholder = document.getElementById('placeholder');
 
 // Perfis que dependem do peso do paciente
 const precisaPeso = ['crianca_maior_1a', 'crianca_0_8m', 'crianca_9_11m',
-                     'neonatal_prematuro', 'neonatal_38_40', 'neonatal_gt40'];
+    'neonatal_prematuro', 'neonatal_38_40', 'neonatal_gt40'];
 
 // Texto informativo para cada perfil
 const INFO_PERFIL = {
-    adulto:            'Via oral, 12/12h, 5 dias',
-    crianca_maior_1a:  'Dose por faixa de peso. Via oral, 12/12h, 5 dias',
-    crianca_0_8m:      '3 mg/kg/dose. Via oral, 12/12h, 5 dias',
-    crianca_9_11m:     '3,5 mg/kg/dose. Via oral, 12/12h, 5 dias',
-    neonatal_prematuro:'1 mg/kg/dose. Via oral, 12/12h, 5 dias',
-    neonatal_38_40:    '1,5 mg/kg/dose. Via oral, 12/12h, 5 dias',
-    neonatal_gt40:     '3 mg/kg/dose. Via oral, 12/12h, 5 dias',
+    adulto: 'Via oral, 12/12h, 5 dias',
+    crianca_maior_1a: 'Dose por faixa de peso. Via oral, 12/12h, 5 dias',
+    crianca_0_8m: '3 mg/kg/dose. Via oral, 12/12h, 5 dias',
+    crianca_9_11m: '3,5 mg/kg/dose. Via oral, 12/12h, 5 dias',
+    neonatal_prematuro: '1 mg/kg/dose. Via oral, 12/12h, 5 dias',
+    neonatal_38_40: '1,5 mg/kg/dose. Via oral, 12/12h, 5 dias',
+    neonatal_gt40: '3 mg/kg/dose. Via oral, 12/12h, 5 dias',
 
 };
 
@@ -34,11 +34,11 @@ function mostrarResultado(dose, unit, freq, dur, obs) {
     containerResultados.classList.remove('hidden');
     placeholder.classList.add('hidden');
 
-    resDose.innerText     = dose;
+    resDose.innerText = dose;
     resDoseUnit.innerText = unit;
-    resFreq.innerText     = freq;
-    resDur.innerText      = dur;
-    obsList.innerHTML     = obs.map(o => `<li>${o}</li>`).join('');
+    resFreq.innerText = freq;
+    resDur.innerText = dur;
+    obsList.innerHTML = obs.map(o => `<li>${o}</li>`).join('');
 }
 
 // ─── Exibe volume em suspensão ─────────────────────────────────────────────
@@ -51,7 +51,7 @@ function mostrarSuspensao(doseMg) {
 // ─── Lógica principal de cálculo ────────────────────────────────────────────
 function calcular() {
     const perfil = inputPerfil.value;
-    const peso   = parseFloat(inputPeso.value);
+    const peso = parseFloat(inputPeso.value);
 
     // Reseta bloco de suspensão a cada cálculo
     blocoSuspensao.classList.add('hidden');
@@ -107,15 +107,15 @@ function calcular() {
 
     // ── Criança < 1 ano e Neonatal (dose por kg) ────────────────────────────
     const DOSE_KG = {
-        crianca_0_8m:       3,
-        crianca_9_11m:      3.5,
+        crianca_0_8m: 3,
+        crianca_9_11m: 3.5,
         neonatal_prematuro: 1,
-        neonatal_38_40:     1.5,
-        neonatal_gt40:      3,
+        neonatal_38_40: 1.5,
+        neonatal_gt40: 3,
     };
 
-    const doseKg  = DOSE_KG[perfil];
-    const doseMg  = peso * doseKg;
+    const doseKg = DOSE_KG[perfil];
+    const doseMg = peso * doseKg;
 
     const obs = [
         `Cálculo: ${doseKg.toLocaleString('pt-BR')} mg/kg × ${peso.toLocaleString('pt-BR')} kg = ${doseMg.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} mg por tomada.`,
