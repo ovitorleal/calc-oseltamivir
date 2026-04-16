@@ -12,6 +12,7 @@ const blocoSuspensao = document.getElementById('bloco-suspensao');
 const obsList = document.getElementById('obs-list');
 const containerResultados = document.getElementById('resultados');
 const placeholder = document.getElementById('placeholder');
+const btnLimpar = document.getElementById('btn-limpar');
 
 // Perfis que dependem do peso do paciente
 const precisaPeso = ['crianca_maior_1a', 'crianca_0_8m', 'crianca_9_11m',
@@ -158,6 +159,12 @@ function atualizarPerfil() {
 // ─── Eventos ─────────────────────────────────────────────────────────────────
 inputPerfil.addEventListener('change', atualizarPerfil);
 inputPeso.addEventListener('input', calcular);
+
+btnLimpar.addEventListener('click', () => {
+    inputPerfil.value = 'adulto';
+    inputPeso.value = '';
+    atualizarPerfil();
+});
 
 // Inicialização — exibe resultado para o perfil padrão (adulto)
 atualizarPerfil();

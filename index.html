@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Oseltamivir</title>
+    <title>Calculadora de OSELTAMIVIR</title>
     <meta name="description"
         content="Ferramenta de apoio ao cálculo de dosagem de Oseltamivir para tratamento de Influenza, desenvolvida pela Secretaria Municipal de Saúde de Volta Redonda.">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,7 +17,7 @@
 
             <!-- Cabeçalho -->
             <div class="bg-blue-700 p-6 text-white text-center">
-                <h1 class="text-2xl font-bold tracking-tight">Calculadora de Dosagem de Oseltamivir</h1>
+                <h1 class="text-2xl font-bold tracking-tight">Calculadora de Dosagem - OSELTAMIVIR</h1>
 
             </div>
 
@@ -59,6 +59,16 @@
                             class="w-full p-4 bg-gray-50 border border-gray-300 rounded-xl text-lg font-semibold focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
                         <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">(em kg)</span>
                     </div>
+                </div>
+
+                <div class="flex justify-end pt-2">
+                    <button type="button" id="btn-limpar"
+                        class="px-4 py-2 text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        <span>Limpar</span>
+                    </button>
                 </div>
 
                 <hr class="border-gray-100">
